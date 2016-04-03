@@ -41,13 +41,13 @@ class Change extends \Magento\Framework\App\Action\Action
     public function execute()
     {
         $configPath = str_replace('\\', '/', $this->getRequest()->getParam('config'));
-        $configValue = (string) $this->getRequest()->getParam('value');
+        $configValue = (string) str_replace('\\', '/', $this->getRequest()->getParam('value'));
         if ($this->validatePassedParams($configPath, $configValue)) {
             $this->configResource->saveConfig(
                 $configPath,
                 $configValue,
                 \Magento\Framework\App\Config\ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
-                null
+                0
             );
         } else {
             $this->getResponse()->appendBody(sprintf(self::FAIL_MESSAGE, 'One or more required parameters are missing'));
